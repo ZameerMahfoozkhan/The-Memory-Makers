@@ -157,6 +157,7 @@ input,textarea,select{font-family:inherit;font-size:inherit;outline:none}
   background:rgba(250,248,245,.92);backdrop-filter:blur(20px) saturate(1.8);
   box-shadow:0 1px 0 var(--charcoal-05);
 }
+.navbar.nav-hidden{transform:translateY(-100%)}
 .navbar .container{display:flex;align-items:center;justify-content:space-between}
 .nav-logo img{height:48px;transition:height var(--dur-norm) var(--ease-out)}
 .navbar.solid .nav-logo img{height:40px}
@@ -710,7 +711,19 @@ input,textarea,select{font-family:inherit;font-size:inherit;outline:none}
 }
 
 
-/* Floating WhatsApp */
-.floating-whatsapp { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background-color: #25d366; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4); z-index: 1000; transition: transform var(--dur-norm) var(--ease-out), box-shadow var(--dur-norm); }
-.floating-whatsapp svg { width: 34px; height: 34px; }
-.floating-whatsapp:hover { transform: translateY(-4px) scale(1.05); box-shadow: 0 8px 16px rgba(37, 211, 102, 0.5); color: white; }
+/* Floating Socials */
+.floating-socials { position: fixed; bottom: 80px; right: 20px; display: flex; flex-direction: column; gap: 12px; z-index: 1000; }
+.floating-btn { width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; box-shadow: 0 4px 12px rgba(0,0,0,0.15); transition: transform var(--dur-norm), box-shadow var(--dur-norm); }
+.floating-btn:hover { transform: translateY(-4px) scale(1.05); color: white; }
+.floating-whatsapp { background-color: #25d366; box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4); }
+.floating-whatsapp:hover { box-shadow: 0 8px 16px rgba(37, 211, 102, 0.5); }
+.floating-instagram { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); box-shadow: 0 4px 12px rgba(220, 39, 67, 0.4); }
+.floating-instagram:hover { box-shadow: 0 8px 16px rgba(220, 39, 67, 0.5); }
+.floating-facebook { background-color: #1877f2; box-shadow: 0 4px 12px rgba(24, 119, 242, 0.4); }
+.floating-facebook:hover { box-shadow: 0 8px 16px rgba(24, 119, 242, 0.5); }
+.floating-btn svg { width: 26px; height: 26px; }
+
+/* Sticky Call Now Bottom Bar */
+.sticky-call-bar { position: fixed; bottom: 0; left: 0; right: 0; background: var(--gold); color: white; text-align: center; padding: 14px; font-weight: 600; font-size: 1.1rem; z-index: 999; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); text-decoration: none; transition: background var(--dur-fast); }
+.sticky-call-bar:hover { background: var(--gold-dark); color: white; }
+.sticky-call-bar svg { width: 22px; height: 22px; }
