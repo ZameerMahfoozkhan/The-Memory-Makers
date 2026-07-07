@@ -14,30 +14,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* ── Navbar ──────────────────────────────────────────────── */
   const navbar = document.getElementById('navbar');
-  let lastScrollY = window.scrollY;
-
   const handleScroll = () => {
-    const currentScrollY = window.scrollY;
-    
-    // Transparent/Solid logic
-    if (currentScrollY > 80) {
+    if (window.scrollY > 80) {
       navbar.classList.remove('transparent');
       navbar.classList.add('solid');
     } else {
       navbar.classList.remove('solid');
       navbar.classList.add('transparent');
     }
-
-    // Smart Header Logic
-    if (currentScrollY > lastScrollY && currentScrollY > 200) {
-      // Scrolling down past threshold
-      navbar.classList.add('nav-hidden');
-    } else {
-      // Scrolling up
-      navbar.classList.remove('nav-hidden');
-    }
-
-    lastScrollY = currentScrollY;
   };
   window.addEventListener('scroll', handleScroll, { passive: true });
   handleScroll();
