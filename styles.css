@@ -69,7 +69,7 @@
 /* ── Reset ──────────────────────────────────────────────────── */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;font-size:16px}
-body{font-family:var(--font-sans);color:var(--charcoal);background:var(--ivory);line-height:1.7;overflow-x:hidden;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+body{font-family:var(--font-sans);color:var(--charcoal);background:var(--ivory);line-height:1.7;overflow-x:hidden;padding-bottom:50px;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
 img,video{max-width:100%;display:block}
 a{text-decoration:none;color:inherit}
 button{border:none;background:none;cursor:pointer;font-family:inherit}
@@ -181,13 +181,13 @@ input,textarea,select{font-family:inherit;font-size:inherit;outline:none}
 .nav-actions .btn-book:hover{background:var(--gold-dark);transform:translateY(-1px)}
 .navbar.transparent .nav-actions .btn-book{background:rgba(255,255,255,.2);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.3)}
 .navbar.transparent .nav-actions .btn-book:hover{background:rgba(255,255,255,.35)}
-.nav-instagram{
+.nav-social{
   display:flex;align-items:center;justify-content:center;width:36px;height:36px;
   border-radius:50%;transition:all var(--dur-fast);
 }
-.nav-instagram:hover{background:var(--charcoal-05)}
-.navbar.transparent .nav-instagram{color:#fff}
-.nav-instagram svg{width:18px;height:18px}
+.nav-social:hover{background:var(--charcoal-05)}
+.navbar.transparent .nav-social{color:#fff}
+.nav-social svg{width:18px;height:18px}
 
 /* Hamburger */
 .hamburger{display:none;flex-direction:column;gap:5px;width:28px;cursor:pointer;z-index:1001}
