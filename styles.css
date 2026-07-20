@@ -727,3 +727,8 @@ input,textarea,select{font-family:inherit;font-size:inherit;outline:none}
 .sticky-call-bar { position: fixed; bottom: 0; left: 0; right: 0; background: var(--gold); color: white; text-align: center; padding: 14px; font-weight: 600; font-size: 1.1rem; z-index: 999; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); text-decoration: none; transition: background var(--dur-fast); }
 .sticky-call-bar:hover { background: var(--gold-dark); color: white; }
 .sticky-call-bar svg { width: 22px; height: 22px; }
+
+@media (min-width: 769px) {
+  .sticky-call-bar { display: none; }
+  body { padding-bottom: 0; }
+}
