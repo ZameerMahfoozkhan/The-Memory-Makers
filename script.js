@@ -171,7 +171,8 @@ document.addEventListener('DOMContentLoaded', () => {
   if (viewFullGalleryBtn) {
     viewFullGalleryBtn.addEventListener('click', () => {
       isFullGallery = true;
-      const activeFilter = document.querySelector('.filter-btn.active').dataset.filter;
+      const activeBtn = document.querySelector('.filter-btn.active');
+      const activeFilter = activeBtn ? activeBtn.dataset.filter : 'all';
       updateGallery(activeFilter);
     });
   }
@@ -394,27 +395,10 @@ document.addEventListener('DOMContentLoaded', () => {
   /* ── Instagram Grid Click ────────────────────────────────── */
   document.querySelectorAll('.insta-item').forEach(item => {
     item.addEventListener('click', () => {
-      window.open('https://www.instagram.com/the_memory_makers_photography/', '_blank');
+      window.open('https://www.instagram.com/the_memory_makers_photography/', '_blank', 'noopener,noreferrer');
     });
   });
 
-  /* ── Contact Form Validation ─────────────────────────────── */
-  const contactForm = document.getElementById('contactForm');
-  if (contactForm) {
-    contactForm.addEventListener('submit', e => {
-      const inputs = contactForm.querySelectorAll('[required]');
-      let valid = true;
-      inputs.forEach(input => {
-        if (!input.value.trim()) {
-          valid = false;
-          input.style.borderColor = '#e74c3c';
-          input.addEventListener('input', () => { input.style.borderColor = ''; }, { once: true });
-        }
-      });
-      if (!valid) {
-        e.preventDefault();
-      }
-    });
-  }
+  /* ── Contact Form (Removed as form doesn't exist) ───────── */
 
 }); // end DOMContentLoaded

@@ -689,6 +689,7 @@ input,textarea,select{font-family:inherit;font-size:inherit;outline:none}
   .stats-grid{grid-template-columns:repeat(3,1fr);gap:var(--sp-3)}
   .testimonial-card{min-width:300px;flex:0 0 300px}
   .about-hero{grid-template-columns:1fr;gap:var(--sp-5)}
+  .about-image-accent{display:none}
   .contact-grid{grid-template-columns:1fr}
   .footer-grid{grid-template-columns:1fr 1fr}
   .stories-grid{grid-template-columns:1fr}
@@ -703,10 +704,13 @@ input,textarea,select{font-family:inherit;font-size:inherit;outline:none}
   .stats-grid{grid-template-columns:repeat(2,1fr)}
   .footer-grid{grid-template-columns:1fr}
   .footer-bottom{flex-direction:column;gap:.5rem;text-align:center}
-  .about-stats{flex-direction:column;gap:var(--sp-2)}
+  .about-content{text-align:center}
+  .about-stats{justify-content:center;gap:var(--sp-4)}
   .timeline::before{left:8px}
-  .timeline-item,.timeline-item:nth-child(even){flex-direction:row;text-align:left}
+  .timeline-item,.timeline-item:nth-child(even){display:block;text-align:left;padding-left:40px}
+  .timeline-dot{position:absolute;left:8px;transform:translateX(-50%);top:4px}
   .timeline-content{max-width:100%}
+  .timeline-content:empty{display:none}
 }
 @media(max-width:480px){
   :root{--nav-h:64px}
