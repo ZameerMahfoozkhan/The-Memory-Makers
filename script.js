@@ -399,6 +399,31 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  /* ── Contact Form (Removed as form doesn't exist) ───────── */
+  /* ── Contact Form to WhatsApp ────────────────────────────── */
+  const contactForm = document.getElementById('contactForm');
+  if (contactForm) {
+    contactForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const firstName = document.getElementById('firstName').value;
+      const lastName = document.getElementById('lastName').value;
+      const email = document.getElementById('email').value;
+      const phone = document.getElementById('phone').value;
+      const service = document.getElementById('service').value;
+      const eventDate = document.getElementById('eventDate').value;
+      const message = document.getElementById('message').value;
+
+      let text = `Hi The Memory Makers! I have a new inquiry:\n\n`;
+      text += `*Name:* ${firstName} ${lastName}\n`;
+      text += `*Phone:* ${phone}\n`;
+      text += `*Email:* ${email}\n`;
+      if (service) text += `*Service:* ${service}\n`;
+      if (eventDate) text += `*Event Date:* ${eventDate}\n`;
+      text += `*Message:* ${message}`;
+
+      const whatsappUrl = `https://wa.me/918318203727?text=${encodeURIComponent(text)}`;
+      window.open(whatsappUrl, '_blank');
+    });
+  }
 
 }); // end DOMContentLoaded
