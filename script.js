@@ -235,6 +235,9 @@ document.addEventListener('DOMContentLoaded', () => {
       collectImages();
     }
     lightboxIndex = index;
+    lightboxImg.style.transition = 'none';
+    lightboxImg.style.transform = 'translateX(0)';
+    lightboxImg.style.opacity = '1';
     lightboxImg.src = lightboxImages[lightboxIndex];
     lightbox.classList.add('open');
     document.body.style.overflow = 'hidden';
@@ -247,11 +250,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function navigateLightbox(dir) {
     lightboxIndex = (lightboxIndex + dir + lightboxImages.length) % lightboxImages.length;
+    
+    lightboxImg.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
     lightboxImg.style.opacity = '0';
+    lightboxImg.style.transform = `translateX(${dir * -50}px)`;
+    
     setTimeout(() => {
+      lightboxImg.style.transition = 'none';
+      lightboxImg.style.transform = `translateX(${dir * 50}px)`;
       lightboxImg.src = lightboxImages[lightboxIndex];
+      
+      void lightboxImg.offsetWidth; // Force reflow
+      
+      lightboxImg.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
       lightboxImg.style.opacity = '1';
-    }, 200);
+      lightboxImg.style.transform = 'translateX(0)';
+    }, 300);
   }
 
   masonryItems.forEach((item, i) => {
