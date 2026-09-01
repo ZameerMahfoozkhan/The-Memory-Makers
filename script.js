@@ -4,6 +4,35 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
+  /* ── Utilities ───────────────────────────────────────────── */
+  const throttle = (fn, wait) => {
+    let inThrottle, lastFn, lastTime;
+    return function() {
+      const context = this, args = arguments;
+      if (!inThrottle) {
+        fn.apply(context, args);
+        lastTime = Date.now();
+        inThrottle = true;
+      } else {
+        clearTimeout(lastFn);
+        lastFn = setTimeout(function() {
+          if (Date.now() - lastTime >= wait) {
+            fn.apply(context, args);
+            lastTime = Date.now();
+          }
+        }, Math.max(wait - (Date.now() - lastTime), 0));
+      }
+    };
+  };
+
+  const debounce = (func, wait) => {
+    let timeout;
+    return function(...args) {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => func.apply(this, args), wait);
+    };
+  };
+
   /* ── Page Loader ─────────────────────────────────────────── */
   const loader = document.getElementById('pageLoader');
   window.addEventListener('load', () => {
@@ -23,7 +52,8 @@ document.addEventListener('DOMContentLoaded', () => {
       navbar.classList.add('transparent');
     }
   };
-  window.addEventListener('scroll', handleScroll, { passive: true });
+  const throttledScroll = throttle(handleScroll, 100);
+  window.addEventListener('scroll', throttledScroll, { passive: true });
   handleScroll();
 
   // Active nav link on scroll
@@ -45,14 +75,16 @@ document.addEventListener('DOMContentLoaded', () => {
   const hamburger = document.getElementById('hamburger');
   const mobileMenu = document.getElementById('mobileMenu');
   hamburger.addEventListener('click', () => {
+    const isOpen = mobileMenu.classList.toggle('open');
     hamburger.classList.toggle('active');
-    mobileMenu.classList.toggle('open');
-    document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+    hamburger.setAttribute('aria-expanded', isOpen);
+    document.body.style.overflow = isOpen ? 'hidden' : '';
   });
   mobileMenu.querySelectorAll('a').forEach(link => {
     link.addEventListener('click', () => {
       hamburger.classList.remove('active');
       mobileMenu.classList.remove('open');
+      hamburger.setAttribute('aria-expanded', 'false');
       document.body.style.overflow = '';
     });
   });
@@ -196,8 +228,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  function openLightbox(index) {
-    collectImages();
+  function openLightbox(index, customImages = null) {
+    if (customImages) {
+      lightboxImages = customImages;
+    } else {
+      collectImages();
+    }
     lightboxIndex = index;
     lightboxImg.src = lightboxImages[lightboxIndex];
     lightbox.classList.add('open');
@@ -221,6 +257,16 @@ document.addEventListener('DOMContentLoaded', () => {
   masonryItems.forEach((item, i) => {
     item.addEventListener('click', () => openLightbox(i));
   });
+
+  document.querySelectorAll('.view-album-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const albumKey = btn.dataset.album;
+      if (typeof ALBUM_DATA !== 'undefined' && ALBUM_DATA[albumKey]) {
+        openLightbox(0, ALBUM_DATA[albumKey]);
+      }
+    });
+  });
   lightboxClose.addEventListener('click', closeLightbox);
   lightboxPrev.addEventListener('click', () => navigateLightbox(-1));
   lightboxNext.addEventListener('click', () => navigateLightbox(1));
@@ -240,9 +286,10 @@ document.addEventListener('DOMContentLoaded', () => {
       if (entry.isIntersecting && !countersDone) {
         countersDone = true;
         counters.forEach(counter => {
-          const target = parseInt(counter.dataset.count);
+          const parsed = parseInt(counter.dataset.count);
+          const target = isNaN(parsed) ? 0 : parsed;
           const duration = 2000;
-          const step = target / (duration / 16);
+          const step = target > 0 ? target / (duration / 16) : 0;
           let current = 0;
           const tick = () => {
             current += step;
@@ -326,10 +373,10 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    window.addEventListener('resize', () => {
+    window.addEventListener('resize', debounce(() => {
       cardsPerView = getCardsPerView();
       goToSlide(0);
-    });
+    }, 250));
   }
 
   /* ── FAQ Accordion ───────────────────────────────────────── */
@@ -340,9 +387,13 @@ document.addEventListener('DOMContentLoaded', () => {
       // Close all
       document.querySelectorAll('.faq-item.open').forEach(openItem => {
         openItem.classList.remove('open');
+        openItem.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
       });
       // Toggle current
-      if (!isOpen) item.classList.add('open');
+      if (!isOpen) {
+        item.classList.add('open');
+        question.setAttribute('aria-expanded', 'true');
+      }
     });
   });
 
@@ -405,13 +456,18 @@ document.addEventListener('DOMContentLoaded', () => {
     contactForm.addEventListener('submit', function(e) {
       e.preventDefault();
       
-      const firstName = document.getElementById('firstName').value;
-      const lastName = document.getElementById('lastName').value;
-      const email = document.getElementById('email').value;
-      const phone = document.getElementById('phone').value;
+      const firstName = document.getElementById('firstName').value.trim();
+      const lastName = document.getElementById('lastName').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const phone = document.getElementById('phone').value.trim();
       const service = document.getElementById('service').value;
       const eventDate = document.getElementById('eventDate').value;
-      const message = document.getElementById('message').value;
+      const message = document.getElementById('message').value.trim();
+
+      if (!firstName || !phone || !message) {
+        alert("Please fill in your Name, Phone, and Message before submitting.");
+        return;
+      }
 
       let text = `Hi The Memory Makers! I have a new inquiry:\n\n`;
       text += `*Name:* ${firstName} ${lastName}\n`;
